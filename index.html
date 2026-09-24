@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roti Musa — Kehangatan Roti Artisan Fresh Dari Oven</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        musa: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                            dark: '#2c1810',
+                            cream: '#fffdf7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fffdf7;
+            color: #2c1810;
+        }
+        .font-serif-custom {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fffbeb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b45309;
+        }
+    </style>
+</head>
+<body class="bg-musa-cream text-stone-800 antialiased selection:bg-musa-200 selection:text-musa-900">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Top Bar Header -->
+    <div class="bg-musa-dark text-amber-100 text-xs py-2 px-4 text-center tracking-wide">
+        <span class="inline-block bg-musa-600 text-white font-bold px-2 py-0.5 rounded text-[10px] mr-2">PROMO</span> 
+        Diskon 10% untuk Pembelian Pertama dengan Kode: <span class="font-bold underline text-amber-300">ROTIMUSA10</span>
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-40 bg-musa-cream/90 backdrop-blur-md border-b border-amber-100/80 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-full bg-musa-600 text-white flex items-center justify-center text-xl shadow-md group-hover:scale-105 transition-transform">
+                    <i class="fa-solid me-0.5 fa-wheat-awn"></i>
+                </div>
+                <div>
+                    <span class="font-serif-custom text-2xl font-bold tracking-tight text-musa-dark block leading-none">Roti Musa</span>
+                    <span class="text-[10px] tracking-widest text-musa-600 uppercase font-semibold">Artisan Bakery</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-stone-700 text-sm">
+                <a href="#beranda" class="hover:text-musa-600 transition-colors">Beranda</a>
+                <a href="#keunggulan" class="hover:text-musa-600 transition-colors">Keunggulan</a>
+                <a href="#menu" class="hover:text-musa-600 transition-colors">Menu Roti</a>
+                <a href="#hampers" class="hover:text-musa-600 transition-colors">Hampers & Paket</a>
+                <a href="#lokasi" class="hover:text-musa-600 transition-colors">Lokasi Toko</a>
+                <a href="#ulasan" class="hover:text-musa-600 transition-colors">Ulasan</a>
+            </nav>
+
+            <!-- Actions Right -->
+            <div class="flex items-center gap-3">
+                <!-- WhatsApp Quick Button -->
+                <a href="https://wa.me/6281234567890?text=Halo%20Roti%20Musa,%20saya%20ingin%20bertanya%20mengenai%20produk%20roti." 
+                   target="_blank" 
+                   class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-full border border-musa-600 text-musa-700 hover:bg-musa-50 text-xs font-semibold transition-colors">
+                    <i class="fa-brands fa-whatsapp text-green-600 text-base"></i>
+                    <span>Tanya CS</span>
+                </a>
+
+                <!-- Cart Toggle Button -->
+                <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-full bg-amber-100 hover:bg-amber-200 text-musa-900 transition-all focus:outline-none" aria-label="Keranjang">
+                    <i class="fa-solid fa-basket-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-musa-600 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white hidden">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-stone-700 hover:bg-stone-100">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-musa-cream border-b border-amber-200 px-4 pt-2 pb-6 space-y-3">
+            <a href="#beranda" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Beranda</a>
+            <a href="#keunggulan" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Keunggulan</a>
+            <a href="#menu" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Menu Roti</a>
+            <a href="#hampers" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Hampers & Paket</a>
+            <a href="#lokasi" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Lokasi Toko</a>
+            <a href="#ulasan" onclick="toggleMobileMenu()" class="block py-2 text-stone-800 font-medium hover:text-musa-600">Ulasan</a>
+            <div class="pt-2">
+                <a href="https://wa.me/6281234567890" target="_blank" class="w-full flex justify-center items-center gap-2 py-2.5 bg-green-600 text-white rounded-xl font-medium text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Chat via WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="relative overflow-hidden pt-8 pb-16 md:py-24 bg-gradient-to-b from-amber-50/60 via-musa-cream to-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Text Content -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/80 border border-amber-200 text-musa-800 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-musa-600 animate-ping"></span>
+                        Fresh Everyday • Dipanggang Mulai Pukul 05.00 Pagi
+                    </div>
+                    
+                    <h1 class="font-serif-custom text-4xl sm:text-5xl lg:text-6xl font-bold text-musa-dark leading-tight">
+                        Kehangatan Roti Artisan <span class="italic text-musa-600 underline decoration-amber-300">Asli & Lembut</span> di Setiap Gigitan.
+                    </h1>
+
+                    <p class="text-stone-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Roti Musa dibuat secara tradisional dengan bahan-bahan butter premium import, tanpa pengawet sintetik, dan disajikan hangat langsung dari oven untuk keluarga tercinta.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#menu" class="w-full sm:w-auto px-8 py-4 bg-musa-600 hover:bg-musa-700 text-white font-semibold rounded-2xl shadow-lg shadow-musa-600/30 transition-all text-center flex items-center justify-center gap-2 group">
+                            <span>Pesan Roti Sekarang</span>
+                            <i class="fa-solid fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#hampers" class="w-full sm:w-auto px-7 py-4 bg-white border border-stone-200 hover:border-musa-400 text-stone-800 font-semibold rounded-2xl hover:bg-amber-50/50 transition-all text-center">
+                            Lihat Paket Hampers
+                        </a>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="pt-6 border-t border-amber-200/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+                        <div>
+                            <p class="text-2xl font-bold font-serif-custom text-musa-dark">100%</p>
+                            <p class="text-xs text-stone-500">Halal MUI</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold font-serif-custom text-musa-dark">25+</p>
+                            <p class="text-xs text-stone-500">Varian Roti & Pastry</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold font-serif-custom text-musa-dark">4.9 ★</p>
+                            <p class="text-xs text-stone-500">1,500+ Ulasan Pelanggan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Hero Image Showcase -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Main Card / Image -->
+                        <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/5] bg-stone-100">
+                            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Roti Musa Fresh Bakery" 
+                                 class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                            <div class="absolute bottom-6 left-6 right-6 text-white">
+                                <span class="bg-amber-500 text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Best Seller</span>
+                                <h3 class="font-serif-custom text-2xl font-bold">Roti Sisir Butter Musa</h3>
+                                <p class="text-xs text-stone-200 mt-1">Lapis butter melimpah dengan aroma harum khas butter Anchor.</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Feature Card 1 -->
+                        <div class="absolute -top-6 -left-6 z-20 bg-white/95 backdrop-blur shadow-xl rounded-2xl p-4 border border-amber-100 hidden sm:flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-musa-700 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-fire"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-stone-800">Fresh From Oven</p>
+                                <p class="text-[11px] text-stone-500">Dipanggang tiap jam 05:00 & 14:00</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Feature Card 2 -->
+                        <div class="absolute -bottom-6 -right-6 z-20 bg-musa-dark text-white shadow-xl rounded-2xl p-4 border border-musa-800 hidden sm:flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-musa-600 text-white flex items-center justify-center text-lg">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-white">Kirim Pengiriman Sameday</p>
+                                <p class="text-[11px] text-amber-200/80">Area Jabodetabek & Sekitarnya</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keunggulan Section -->
+    <section id="keunggulan" class="py-16 bg-white border-y border-amber-100/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-musa-600 mb-2">Mengapa Roti Musa?</h2>
+                <p class="font-serif-custom text-3xl sm:text-4xl font-bold text-musa-dark">Dibuat Dengan Ketelitian & Bahan Terbaik</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="p-6 rounded-2xl bg-musa-cream border border-amber-100 hover:border-amber-300 transition-all group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-musa-700 flex items-center justify-center text-2xl mb-5 group-hover:bg-musa-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-butter"></i>
+                    </div>
+                    <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Mentega Murni Premium</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Menggunakan 100% mentega asli tanpa campuran minyak olahan untuk tekstur roti yang luar biasa lembut dan wangi.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-6 rounded-2xl bg-musa-cream border border-amber-100 hover:border-amber-300 transition-all group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-musa-700 flex items-center justify-center text-2xl mb-5 group-hover:bg-musa-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-leaf"></i>
+                    </div>
+                    <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Bebas Bahan Pengawet</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Diolah secara sehat tanpa pengawet buatan dan pemutih tepung. Aman dikonsumsi seluruh anggota keluarga.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-6 rounded-2xl bg-musa-cream border border-amber-100 hover:border-amber-300 transition-all group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-musa-700 flex items-center justify-center text-2xl mb-5 group-hover:bg-musa-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-certificate"></i>
+                    </div>
+                    <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Jaminan Halal 100%</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Seluruh proses pembuatan, bahan baku, dan peralatan dijamin halal dan higienis bersertifikasi resmi.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-6 rounded-2xl bg-musa-cream border border-amber-100 hover:border-amber-300 transition-all group hover:-translate-y-1">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-musa-700 flex items-center justify-center text-2xl mb-5 group-hover:bg-musa-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Kemasan Elegan & Aman</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Dikemas rapi, higienis, dan elegan cocok untuk sajian keluarga, hantaran, maupun hadiah spesial.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Menu Section -->
+    <section id="menu" class="py-20 bg-musa-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-musa-600 block mb-1">Pilihan Terbaik</span>
+                    <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-musa-dark">Katalog Menu Roti Musa</h2>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-72">
+                    <input type="text" id="search-input" oninput="filterMenu()" placeholder="Cari nama roti..." 
+                           class="w-full pl-10 pr-4 py-2.5 rounded-full border border-stone-300 focus:outline-none focus:border-musa-600 focus:ring-2 focus:ring-amber-200 text-sm bg-white">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-stone-400 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar scroll-smooth">
+                <button onclick="setCategory('all')" id="btn-cat-all" class="cat-btn active px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all bg-musa-dark text-white">
+                    Semua Menu
+                </button>
+                <button onclick="setCategory('manis')" id="btn-cat-manis" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all bg-white text-stone-700 border border-stone-200 hover:bg-amber-100">
+                    <i class="fa-solid fa-cookie me-1 text-amber-600"></i> Roti Manis & Sobek
+                </button>
+                <button onclick="setCategory('tawar')" id="btn-cat-tawar" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all bg-white text-stone-700 border border-stone-200 hover:bg-amber-100">
+                    <i class="fa-solid fa-bread-slice me-1 text-amber-600"></i> Roti Tawar & Toast
+                </button>
+                <button onclick="setCategory('pastry')" id="btn-cat-pastry" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all bg-white text-stone-700 border border-stone-200 hover:bg-amber-100">
+                    <i class="fa-solid fa-align-center me-1 text-amber-600"></i> Pastry & Croissant
+                </button>
+                <button onclick="setCategory('minuman')" id="btn-cat-minuman" class="cat-btn px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all bg-white text-stone-700 border border-stone-200 hover:bg-amber-100">
+                    <i class="fa-solid fa-mug-hot me-1 text-amber-600"></i> Kopi & Minuman
+                </button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic Items Rendered via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty-menu" class="hidden text-center py-16">
+                <div class="w-16 h-16 mx-auto bg-amber-100 text-musa-700 rounded-full flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-bread-slice"></i>
+                </div>
+                <h3 class="font-serif-custom text-xl font-bold text-stone-800">Menu tidak ditemukan</h3>
+                <p class="text-stone-500 text-sm mt-1">Coba kata kunci pencarian lain atau pilih kategori lain.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hampers & Special Order Section -->
+    <section id="hampers" class="py-16 bg-musa-dark text-white relative overflow-hidden">
+        <!-- Decorative Background Pattern -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f59e0b_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="inline-block px-3 py-1 bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-semibold rounded-full uppercase tracking-wider">
+                        Spesial Acara & Hantaran
+                    </span>
+                    <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-amber-50 leading-tight">
+                        Paket Hampers & Custom Catering Roti Musa
+                    </h2>
+                    <p class="text-stone-300 text-sm sm:text-base leading-relaxed">
+                        Lengkapi momen spesial seperti Pernikahan, Ulang Tahun, Gathering Kantor, atau Arisan Keluarga dengan pilihan hampers roti cantik bertema custom khas Roti Musa.
+                    </p>
+                    
+                    <ul class="space-y-3 text-sm text-stone-200">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-amber-400"></i>
+                            <span>Bisa custom pita, kartu ucapan, & desain box premium.</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-amber-400"></i>
+                            <span>Diskon khusus untuk pemesanan minimal 20 box.</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-circle-check text-amber-400"></i>
+                            <span>Pengiriman terjadwal dan dijamin tepat waktu.</span>
+                        </li>
+                    </ul>
+
+                    <div class="pt-2">
+                        <a href="https://wa.me/6281234567890?text=Halo%20Roti%20Musa,%20saya%20tertarik%20untuk%20order%20Hampers/Catering%20Event." 
+                           target="_blank" 
+                           class="inline-flex items-center gap-3 px-7 py-3.5 bg-musa-600 hover:bg-musa-500 text-white font-semibold rounded-2xl shadow-lg transition-all text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Konsultasi Paket Hampers</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-stone-700">
+                                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=600&auto=format&fit=crop" alt="Hampers Box Roti Musa" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                            <div class="bg-stone-800/80 p-4 rounded-2xl border border-stone-700">
+                                <h4 class="font-serif-custom font-bold text-amber-300 text-base">Hampers Premium Box</h4>
+                                <p class="text-xs text-stone-400 mt-1">Isi 6 varian roti manis & croissant pilihan.</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 pt-6">
+                            <div class="bg-stone-800/80 p-4 rounded-2xl border border-stone-700">
+                                <h4 class="font-serif-custom font-bold text-amber-300 text-base">Snack Box Acara</h4>
+                                <p class="text-xs text-stone-400 mt-1">Paket hemat roti + minuman kopi/teh botol.</p>
+                            </div>
+                            <div class="rounded-2xl overflow-hidden shadow-lg border border-stone-700">
+                                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600&auto=format&fit=crop" alt="Pastry Box" class="w-full h-48 object-cover hover:scale-105 transition-transform duration-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Store Hours Section -->
+    <section id="lokasi" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-widest text-musa-600 block mb-1">Outlet Resmi</span>
+                <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-musa-dark">Kunjungi Toko Roti Musa</h2>
+                <p class="text-stone-600 text-sm mt-2">Nikmati aroma roti panggang hangat dan area bersantai yang nyaman di outlet terdekat Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Location Card 1 -->
+                <div class="bg-musa-cream rounded-2xl p-6 border border-amber-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 flex items-center justify-center mb-4 text-base font-bold">
+                            1
+                        </div>
+                        <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Roti Musa — Senopati Flagship</h3>
+                        <p class="text-stone-600 text-sm mb-4">
+                            Jl. Senopati No. 45, Kebayoran Baru, Jakarta Selatan.
+                        </p>
+                        <div class="space-y-2 text-xs text-stone-600 border-t border-amber-200/60 pt-4">
+                            <p class="flex items-center gap-2">
+                                <i class="fa-regular fa-clock text-musa-600"></i>
+                                <span>Buka Setiap Hari: 06.00 - 21.00 WIB</span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-musa-600"></i>
+                                <span>(021) 555-8901</span>
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="mt-6 w-full py-2.5 rounded-xl border border-musa-600 text-musa-700 font-semibold text-xs text-center block hover:bg-musa-600 hover:text-white transition-colors">
+                        <i class="fa-solid fa-map-location-dot me-1"></i> Buka Petunjuk Arah
+                    </a>
+                </div>
+
+                <!-- Location Card 2 -->
+                <div class="bg-musa-cream rounded-2xl p-6 border border-amber-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 flex items-center justify-center mb-4 text-base font-bold">
+                            2
+                        </div>
+                        <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Roti Musa — Bintaro Sector 7</h3>
+                        <p class="text-stone-600 text-sm mb-4">
+                            Ruko Bintaro Arcade I Block B1 No. 8, Tangerang Selatan.
+                        </p>
+                        <div class="space-y-2 text-xs text-stone-600 border-t border-amber-200/60 pt-4">
+                            <p class="flex items-center gap-2">
+                                <i class="fa-regular fa-clock text-musa-600"></i>
+                                <span>Buka Setiap Hari: 06.30 - 21.30 WIB</span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-musa-600"></i>
+                                <span>(021) 777-4321</span>
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="mt-6 w-full py-2.5 rounded-xl border border-musa-600 text-musa-700 font-semibold text-xs text-center block hover:bg-musa-600 hover:text-white transition-colors">
+                        <i class="fa-solid fa-map-location-dot me-1"></i> Buka Petunjuk Arah
+                    </a>
+                </div>
+
+                <!-- Location Card 3 -->
+                <div class="bg-musa-cream rounded-2xl p-6 border border-amber-100 flex flex-col justify-between hover:shadow-lg transition-shadow">
+                    <div>
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 flex items-center justify-center mb-4 text-base font-bold">
+                            3
+                        </div>
+                        <h3 class="font-serif-custom text-xl font-bold text-musa-dark mb-2">Roti Musa — Dago Bandung</h3>
+                        <p class="text-stone-600 text-sm mb-4">
+                            Jl. Ir. H. Juanda No. 120, Dago, Kota Bandung.
+                        </p>
+                        <div class="space-y-2 text-xs text-stone-600 border-t border-amber-200/60 pt-4">
+                            <p class="flex items-center gap-2">
+                                <i class="fa-regular fa-clock text-musa-600"></i>
+                                <span>Buka Setiap Hari: 07.00 - 22.00 WIB</span>
+                            </p>
+                            <p class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone text-musa-600"></i>
+                                <span>(022) 201-9988</span>
+                            </p>
+                        </div>
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="mt-6 w-full py-2.5 rounded-xl border border-musa-600 text-musa-700 font-semibold text-xs text-center block hover:bg-musa-600 hover:text-white transition-colors">
+                        <i class="fa-solid fa-map-location-dot me-1"></i> Buka Petunjuk Arah
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="ulasan" class="py-20 bg-amber-50/50 border-t border-amber-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-widest text-musa-600 block mb-1">Pendapat Pelanggan</span>
+                <h2 class="font-serif-custom text-3xl sm:text-4xl font-bold text-musa-dark">Kata Mereka Tentang Roti Musa</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200/80 space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 text-sm italic">
+                        "Roti Sisir Butter-nya juara banget! Lembut, gurih butter terasa sekali, dan tidak bikin seret. Setiap minggu pasti beli buat sarapan anak-anak."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 font-bold flex items-center justify-center text-sm">
+                            SD
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-stone-800">Siti Sarah D.</p>
+                            <p class="text-[11px] text-stone-400">Ibu Rumah Tangga — Jakarta</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200/80 space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 text-sm italic">
+                        "Kemarin pesan paket hampers Roti Musa untuk acara ulang tahun kantor. Respon WA super cepat, packing rapi, dan semua rekan kerja puji rasanya enak!"
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 font-bold flex items-center justify-center text-sm">
+                            BP
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-stone-800">Budi Pratama</p>
+                            <p class="text-[11px] text-stone-400">Office Admin — Tangerang</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200/80 space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-stone-600 text-sm italic">
+                        "Croissant Butter-nya renyah di luar tapi soft flaky di dalam. Dipadukan dengan Es Kopi Susu Gula Aren Musa pas banget buat teman nugas pagi hari."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <div class="w-10 h-10 rounded-full bg-amber-200 text-musa-800 font-bold flex items-center justify-center text-sm">
+                            AL
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-stone-800">Amanda Larasati</p>
+                            <p class="text-[11px] text-stone-400">Content Creator — Bandung</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-musa-dark text-stone-300 pt-16 pb-10 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-800">
+                <!-- Brand Info -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-musa-600 text-white flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-wheat-awn"></i>
+                        </div>
+                        <span class="font-serif-custom text-2xl font-bold text-white">Roti Musa</span>
+                    </div>
+                    <p class="text-xs text-stone-400 leading-relaxed max-w-sm">
+                        Pelopor roti artisan hangat khas Indonesia dengan cita rasa otentik mentega pilihan. Dipanggang fresh setiap hari tanpa bahan pengawet sintetik.
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <a href="#" class="w-9 h-9 rounded-full bg-stone-800 text-amber-400 flex items-center justify-center hover:bg-musa-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-stone-800 text-amber-400 flex items-center justify-center hover:bg-musa-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-stone-800 text-amber-400 flex items-center justify-center hover:bg-musa-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full bg-stone-800 text-amber-400 flex items-center justify-center hover:bg-musa-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Link Column 1 -->
+                <div>
+                    <h4 class="text-white font-serif-custom font-bold text-base mb-4">Navigasi</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#beranda" class="hover:text-amber-400 transition-colors">Beranda</a></li>
+                        <li><a href="#keunggulan" class="hover:text-amber-400 transition-colors">Keunggulan Roti</a></li>
+                        <li><a href="#menu" class="hover:text-amber-400 transition-colors">Katalog Menu</a></li>
+                        <li><a href="#hampers" class="hover:text-amber-400 transition-colors">Paket Hampers</a></li>
+                        <li><a href="#lokasi" class="hover:text-amber-400 transition-colors">Cabang Toko</a></li>
+                    </ul>
+                </div>
+
+                <!-- Link Column 2 -->
+                <div>
+                    <h4 class="text-white font-serif-custom font-bold text-base mb-4">Layanan</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">Pemesanan WhatsApp</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">Catering Office</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">Reseller & Kemitraan</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">Sertifikasi Halal</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Column -->
+                <div>
+                    <h4 class="text-white font-serif-custom font-bold text-base mb-4">Buletin Promo</h4>
+                    <p class="text-xs text-stone-400 mb-3">Dapatkan voucher promo khusus & kabar menu baru langsung di email Anda.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="Email Anda..." class="w-full px-3.5 py-2 rounded-xl bg-stone-800 border border-stone-700 text-xs text-white focus:outline-none focus:border-musa-500">
+                        <button type="submit" class="w-full py-2 bg-musa-600 hover:bg-musa-500 text-white rounded-xl font-semibold text-xs transition-colors">
+                            Berlangganan
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-8 text-center sm:flex sm:justify-between sm:items-center text-xs text-stone-500">
+                <p>&copy; 2026 Roti Musa Artisan Bakery. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p class="mt-2 sm:mt-0">Dibuat dengan <i class="fa-solid fa-heart text-amber-500"></i> Fresh dari Oven.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer Modal Overlay -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <!-- Backdrop -->
+        <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+        
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
+                <!-- Cart Header -->
+                <div class="p-5 border-b border-stone-200 flex items-center justify-between bg-musa-cream">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-musa-600 text-xl"></i>
+                        <h3 class="font-serif-custom text-lg font-bold text-musa-dark">Keranjang Belanja</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="p-2 text-stone-400 hover:text-stone-700 rounded-full">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items-container" class="p-5 flex-1 overflow-y-auto space-y-4 divide-y divide-stone-100">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <!-- Cart Footer & Checkout -->
+                <div class="p-5 border-t border-stone-200 bg-stone-50 space-y-4">
+                    <!-- Promo Code Input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="promo-code-input" placeholder="Kode Promo (misal: ROTIMUSA10)" 
+                               class="flex-1 px-3.5 py-2 text-xs rounded-xl border border-stone-300 focus:outline-none focus:border-musa-600 bg-white uppercase">
+                        <button onclick="applyPromoCode()" class="px-4 py-2 bg-stone-800 text-white rounded-xl text-xs font-semibold hover:bg-stone-900 transition-colors">
+                            Gunakan
+                        </button>
+                    </div>
+
+                    <!-- Price Summary -->
+                    <div class="space-y-1.5 text-xs text-stone-600">
+                        <div class="flex justify-between">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal" class="font-semibold text-stone-800">Rp 0</span>
+                        </div>
+                        <div id="promo-discount-row" class="flex justify-between text-green-600 hidden">
+                            <span>Diskon Promo (10%):</span>
+                            <span id="cart-discount" class="font-semibold">-Rp 0</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-bold text-musa-dark pt-2 border-t border-stone-200">
+                            <span>Total Pembayaran:</span>
+                            <span id="cart-total" class="text-musa-600 text-base">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Direct Order Buttons -->
+                    <button onclick="openCheckoutModal()" id="btn-checkout" disabled
+                            class="w-full py-3 bg-musa-600 disabled:bg-stone-300 hover:bg-musa-700 text-white rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Lanjut Ke Pemesanan</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div onclick="closeDetailModal()" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl z-10 animate-fade-in">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-stone-800 flex items-center justify-center shadow z-20">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="detail-modal-body">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div onclick="closeCheckoutModal()" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl z-10 p-6 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-serif-custom text-xl font-bold text-musa-dark">Detail Pemesanan Roti</h3>
+                <button onclick="closeCheckoutModal()" class="text-stone-400 hover:text-stone-700">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form onsubmit="sendWhatsAppOrder(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-stone-700 mb-1">Nama Lengkap *</label>
+                    <input type="text" id="cust-name" required placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-musa-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-stone-700 mb-1">Nomor WhatsApp *</label>
+                    <input type="tel" id="cust-phone" required placeholder="Contoh: 081234567890" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-musa-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-stone-700 mb-1">Metode Pengiriman *</label>
+                    <select id="cust-delivery" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-musa-500 focus:outline-none bg-white">
+                        <option value="Delivery Kurir Instant / Sameday">Delivery Kurir Instant / Sameday</option>
+                        <option value="Pick-up di Outlet Senopati">Pick-up Ambil Sendiri (Senopati)</option>
+                        <option value="Pick-up di Outlet Bintaro">Pick-up Ambil Sendiri (Bintaro)</option>
+                        <option value="Pick-up di Outlet Bandung">Pick-up Ambil Sendiri (Bandung)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-semibold text-stone-700 mb-1">Alamat Lengkap (Bila Delivery)</label>
+                    <textarea id="cust-address" rows="2" placeholder="Nama Jalan, Nomor Rumah, RT/RW, Kecamatan..." class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-musa-500 focus:outline-none"></textarea>
+                </div>
+                <div>
+                    <label class="block font-semibold text-stone-700 mb-1">Catatan Pesanan / Kartu Ucapan</label>
+                    <input type="text" id="cust-note" placeholder="Misal: Tolong dipotongkan, atau ucapan hampers..." class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-xs focus:ring-2 focus:ring-musa-500 focus:outline-none">
+                </div>
+
+                <div class="pt-3">
+                    <button type="submit" class="w-full py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition-all">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Kirim Pesanan Ke WhatsApp Roti Musa</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Menu Data
+        const menuProducts = [
+            {
+                id: 1,
+                name: "Roti Sisir Butter Musa",
+                category: "manis",
+                price: 32000,
+                rating: "4.9",
+                badge: "Terlaris",
+                image: "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?q=80&w=600&auto=format&fit=crop",
+                description: "Roti sisir legendaris dengan lumeran mentega Anchor impor premium, bertekstur sangat lembut dan harum butter menggugah selera."
+            },
+            {
+                id: 2,
+                name: "Roti Sobek Coklat Lumer",
+                category: "manis",
+                price: 28000,
+                rating: "4.8",
+                badge: "Favorit",
+                image: "https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=600&auto=format&fit=crop",
+                description: "Roti sobek empuk isi coklat Belgia melimpah yang meleleh hangat ketika dipanggang ulang."
+            },
+            {
+                id: 3,
+                name: "Roti Keju Daging Smoked Beef",
+                category: "manis",
+                price: 35000,
+                rating: "4.9",
+                badge: "Baru",
+                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
+                description: "Kombinasi isi smoked beef gurih, saus spesial, dan parutan keju cheddar melimpah di atasnya."
+            },
+            {
+                id: 4,
+                name: "Classic Butter Croissant",
+                category: "pastry",
+                price: 24000,
+                rating: "4.9",
+                badge: "Artisan",
+                image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=600&auto=format&fit=crop",
+                description: "Croissant khas Prancis dengan 27 lapisan butter renyah di luar, lembut dan airy di bagian dalam."
+            },
+            {
+                id: 5,
+                name: "Almond Chocolate Danish",
+                category: "pastry",
+                price: 29000,
+                rating: "4.8",
+                badge: "Rekomendasi",
+                image: "https://images.unsplash.com/photo-1530610476181-d83430b64dcd?q=80&w=600&auto=format&fit=crop",
+                description: "Pastry renyah dengan isian coklat kaya rasa serta taburan kepingan almond panggang garing."
+            },
+            {
+                id: 6,
+                name: "Roti Tawar Brioche Premium",
+                category: "tawar",
+                price: 38000,
+                rating: "4.9",
+                badge: "Keluarga",
+                image: "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?q=80&w=600&auto=format&fit=crop",
+                description: "Roti tawar gaya Prancis menggunakan susu murni & telur kaya rasa. Sangat cocok dijadikan french toast atau sandwich mewah."
+            },
+            {
+                id: 7,
+                name: "Roti Tawar Gandum Utuh (Whole Wheat)",
+                category: "tawar",
+                price: 34000,
+                rating: "4.7",
+                badge: "Sehat",
+                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=600&auto=format&fit=crop",
+                description: "100% tepung gandum utuh dengan serat tinggi, tanpa pemutih, bebas gula berlebih untuk pola hidup sehat."
+            },
+            {
+                id: 8,
+                name: "Es Kopi Susu Gula Aren Musa",
+                category: "minuman",
+                price: 22000,
+                rating: "4.9",
+                badge: "Best Drink",
+                image: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=600&auto=format&fit=crop",
+                description: "Espresso arabika dipadu susu segar dan gula aren organik murni. Teman sempurna pendamping roti."
+            },
+            {
+                id: 9,
+                name: "Artisan Iced Chocolate",
+                category: "minuman",
+                price: 26000,
+                rating: "4.8",
+                badge: "Non-Coffee",
+                image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?q=80&w=600&auto=format&fit=crop",
+                description: "Minuman coklat pekat kental berkualitas tinggi disajikan dingin dengan susu creamy."
+            }
+        ];
+
+        // Global State variables
+        let cart = [];
+        let currentCategory = 'all';
+        let appliedDiscount = 0; // percentage
+
+        // Helper: Format Rupiah
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
+        }
+
+        // Render Menu Cards
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            const empty = document.getElementById('empty-menu');
+            const searchKeyword = document.getElementById('search-input').value.toLowerCase();
+
+            grid.innerHTML = '';
+
+            const filtered = menuProducts.filter(item => {
+                const matchCategory = currentCategory === 'all' || item.category === currentCategory;
+                const matchSearch = item.name.toLowerCase().includes(searchKeyword) || item.description.toLowerCase().includes(searchKeyword);
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                filtered.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-3xl overflow-hidden border border-stone-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group";
+                    card.innerHTML = `
+                        <div>
+                            <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 bg-musa-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
+                                    ${product.badge}
+                                </span>
+                                <button onclick="openDetailModal(${product.id})" class="absolute bottom-3 right-3 w-9 h-9 rounded-full bg-white/90 text-stone-800 hover:bg-musa-600 hover:text-white flex items-center justify-center shadow transition-colors" title="Lihat Detail">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="p-5 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 uppercase">${product.category}</span>
+                                    <span class="text-xs text-amber-500 font-semibold flex items-center gap-1">
+                                        <i class="fa-solid fa-star"></i> ${product.rating}
+                                    </span>
+                                </div>
+                                <h3 class="font-serif-custom text-lg font-bold text-musa-dark leading-snug group-hover:text-musa-600 transition-colors">${product.name}</h3>
+                                <p class="text-stone-500 text-xs line-clamp-2 leading-relaxed">${product.description}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0 flex items-center justify-between border-t border-stone-100 mt-2">
+                            <div>
+                                <span class="text-[10px] text-stone-400 block">Harga</span>
+                                <span class="font-serif-custom text-base font-bold text-musa-dark">${formatRupiah(product.price)}</span>
+                            </div>
+                            <button onclick="addToCart(${product.id})" class="px-4 py-2 bg-musa-600 hover:bg-musa-700 text-white font-semibold text-xs rounded-xl shadow-md transition-colors flex items-center gap-1.5">
+                                <i class="fa-solid fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        }
+
+        // Category Filter Set
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-musa-dark', 'text-white');
+                btn.classList.add('bg-white', 'text-stone-700', 'border', 'border-stone-200');
+            });
+            const activeBtn = document.getElementById(`btn-cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-stone-700', 'border', 'border-stone-200');
+                activeBtn.classList.add('bg-musa-dark', 'text-white');
+            }
+            renderMenu();
+        }
+
+        function filterMenu() {
+            renderMenu();
+        }
+
+        // Cart Logic
+        function addToCart(productId) {
+            const product = menuProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" berhasil ditambahkan ke keranjang!`);
+        }
+
+        function updateQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.qty += delta;
+            if (item.qty <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            updateCartUI();
+            showToast("Item dihapus dari keranjang.");
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const badge = document.getElementById('cart-badge');
+            const checkoutBtn = document.getElementById('btn-checkout');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+
+            if (totalItems > 0) {
+                badge.innerText = totalItems;
+                badge.classList.remove('hidden');
+                checkoutBtn.disabled = false;
+            } else {
+                badge.classList.add('hidden');
+                checkoutBtn.disabled = true;
+            }
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-stone-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3 text-stone-300"></i>
+                        <p class="text-sm">Keranjang Anda masih kosong.</p>
+                        <p class="text-xs text-stone-400 mt-1">Pilih roti favorit Anda di katalog!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="pt-3 first:pt-0 flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded-xl border border-stone-200">
+                        <div class="flex-1">
+                            <h4 class="font-serif-custom text-xs font-bold text-stone-800 leading-tight">${item.name}</h4>
+                            <p class="text-[11px] font-bold text-musa-600 mt-0.5">${formatRupiah(item.price)}</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 bg-stone-100 rounded-lg p-1">
+                            <button onclick="updateQty(${item.id}, -1)" class="w-6 h-6 rounded bg-white text-stone-700 hover:bg-stone-200 flex items-center justify-center text-xs font-bold shadow-sm">-</button>
+                            <span class="text-xs font-bold px-1 min-w-[1.2rem] text-center">${item.qty}</span>
+                            <button onclick="updateQty(${item.id}, 1)" class="w-6 h-6 rounded bg-white text-stone-700 hover:bg-stone-200 flex items-center justify-center text-xs font-bold shadow-sm">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-stone-300 hover:text-red-500 p-1">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            // Calculation
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const discountAmount = (subtotal * appliedDiscount) / 100;
+            const finalTotal = subtotal - discountAmount;
+
+            document.getElementById('cart-subtotal').innerText = formatRupiah(subtotal);
+            
+            const discountRow = document.getElementById('promo-discount-row');
+            if (appliedDiscount > 0) {
+                discountRow.classList.remove('hidden');
+                document.getElementById('cart-discount').innerText = `-${formatRupiah(discountAmount)}`;
+            } else {
+                discountRow.classList.add('hidden');
+            }
+
+            document.getElementById('cart-total').innerText = formatRupiah(finalTotal);
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            if (input === "ROTIMUSA10") {
+                appliedDiscount = 10;
+                updateCartUI();
+                showToast("Kode Promo ROTIMUSA10 berhasil dipasang! (Diskon 10%)");
+            } else if (input === "") {
+                showToast("Masukkan kode promo terlebih dahulu.");
+            } else {
+                showToast("Kode promo tidak valid.", "error");
+            }
+        }
+
+        // UI Drawer & Modals
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function openDetailModal(id) {
+            const product = menuProducts.find(p => p.id === id);
+            if (!product) return;
+
+            const modalBody = document.getElementById('detail-modal-body');
+            modalBody.innerHTML = `
+                <div class="aspect-video relative overflow-hidden bg-stone-100">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                    <span class="absolute top-4 left-4 bg-musa-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        ${product.badge}
+                    </span>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded border border-amber-200 uppercase">${product.category}</span>
+                        <span class="text-xs text-amber-500 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i> ${product.rating} / 5.0
+                        </span>
+                    </div>
+                    <h3 class="font-serif-custom text-2xl font-bold text-musa-dark">${product.name}</h3>
+                    <p class="text-stone-600 text-xs sm:text-sm leading-relaxed">${product.description}</p>
+                    <div class="pt-3 flex items-center justify-between border-t border-stone-100">
+                        <div>
+                            <span class="text-xs text-stone-400 block">Harga Satuan</span>
+                            <span class="font-serif-custom text-xl font-bold text-musa-dark">${formatRupiah(product.price)}</span>
+                        </div>
+                        <button onclick="addToCart(${product.id}); closeDetailModal();" class="px-6 py-3 bg-musa-600 hover:bg-musa-700 text-white font-semibold text-xs rounded-xl shadow-lg transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-basket-shopping"></i> Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+            toggleCartDrawer();
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        // Submit WA Order
+        function sendWhatsAppOrder(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            const delivery = document.getElementById('cust-delivery').value;
+            const address = document.getElementById('cust-address').value || "-";
+            const note = document.getElementById('cust-note').value || "-";
+
+            let itemsList = cart.map((item, index) => 
+                `${index + 1}. *${item.name}* (${item.qty}x) = ${formatRupiah(item.price * item.qty)}`
+            ).join('\n');
+
+            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const discountAmount = (subtotal * appliedDiscount) / 100;
+            const finalTotal = subtotal - discountAmount;
+
+            let message = `Halo Roti Musa! Saya ingin memesan roti:\n\n` +
+                          `*DETAIL PEMESANAN:*\n` +
+                          `${itemsList}\n\n` +
+                          `*Subtotal:* ${formatRupiah(subtotal)}\n` +
+                          (appliedDiscount > 0 ? `*Diskon Promo (${appliedDiscount}%):* -${formatRupiah(discountAmount)}\n` : '') +
+                          `*Total Pembayaran:* *${formatRupiah(finalTotal)}*\n\n` +
+                          `*DATA PEMESAN:*\n` +
+                          `• Nama: ${name}\n` +
+                          `• No. WA: ${phone}\n` +
+                          `• Layanan: ${delivery}\n` +
+                          `• Alamat: ${address}\n` +
+                          `• Catatan: ${note}\n\n` +
+                          `Mohon diproses pesanan saya. Terima kasih!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const waNumber = "6281234567890"; // WhatsApp CS Roti Musa
+            window.open(`https://wa.me/${waNumber}?text=${encodedMessage}`, '_blank');
+
+            closeCheckoutModal();
+            cart = [];
+            appliedDiscount = 0;
+            updateCartUI();
+            showToast("Pesanan dialihkan ke WhatsApp CS Roti Musa. Terima kasih!");
+        }
+
+        function handleNewsletter(e) {
+            e.preventDefault();
+            showToast("Terima kasih telah berlangganan buletin Roti Musa!");
+            e.target.reset();
+        }
+
+        // Toast System
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-2xl shadow-xl text-xs font-semibold text-white flex items-center gap-3 transition-all transform translate-y-2 opacity-0 pointer-events-auto ${type === 'error' ? 'bg-red-600' : 'bg-musa-dark border border-musa-600'}`;
+            
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'error' ? 'fa-triangle-exclamation text-red-300' : 'fa-circle-check text-amber-400'} text-base"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        // Initialize On Load
+        window.onload = function() {
+            renderMenu();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
